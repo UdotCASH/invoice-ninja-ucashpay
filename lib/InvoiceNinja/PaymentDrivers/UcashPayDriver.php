@@ -81,22 +81,22 @@ class UcashPayDriver extends BaseDriver
     /**
      * Register the public webhook route on boot.
      * Invoice Ninja serves driver routes at: /payment_webhook/{gateway_type}/{driver}
-     * We expose one route: POST /payment_webhook/{hash}/ucashpay/webhook
+     * We expose one route: POST /payment_webhook/{hash}/ucash/webhook
      */
     public function boot()
     {
         app('router')->group(['middleware' => ['web']], function ($router) {
-            $router->post('payment_webhook/{company_gateway}/ucashpay/webhook', [
+            $router->post('payment_webhook/{company_gateway}/ucash/webhook', [
                 'uses' => 'App\Http\Controllers\ClientPortal\PaymentWebhookController@handle',
-                'as'   => 'ucashpay.webhook',
+                'as'   => 'ucash.webhook',
             ]);
             // Invoice Ninja dispatches to the driver class via the controller; for a fully
             // self-contained driver we expose our own endpoint below.
-            $router->post('ucashpay/webhook/{company_gateway}', function (\Illuminate\Http\Request $request, $company_gateway) {
+            $router->post('ucash/webhook/{company_gateway}', function (\Illuminate\Http\Request $request, $company_gateway) {
                 $cg = \App\Models\CompanyGateway::where('gateway_key', $company_gateway)->first();
                 if (!$cg) { return response('Not found', 404); }
                 $driver = (new self())->setCompanyGateway($cg)->setPaymentMethod(
-                    \App\Models\GatewayType::firstOrCreate(['alias' => 'ucashpay'])->id
+                    \App\Models\GatewayType::firstOrCreate(['alias' => 'ucash'])->id
                 );
                 return $driver->handleWebhook($request);
             });
@@ -117,10 +117,10 @@ class UcashPayDriver extends BaseDriver
             'company_gateway_id' => $this->company_gateway->id,
             'gateway_type_id'    => isset($this->payment_method) ? $this->payment_method : 0,
             'hash'               => $invite_key,
-            'driver'             => 'ucashpay',
+            'driver'             => 'ucash',
         ]);
 
-        return render('gateways.ucashpay.pay', [
+        return render('gateways.ucash.pay', [
             'title'       => ctrans('texts.pay_with', ['gateway' => 'U.CASH']),
             'amount'      => $amount,
             'currency'    => $currency,

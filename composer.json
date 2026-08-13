@@ -1,5 +1,5 @@
 {
-    "name": "ucash/invoice-ninja-ucashpay",
+    "name": "ucash/invoice-ninja-ucash",
     "description": "U.CASH Pay payment driver for Invoice Ninja. Accept crypto and card payments through pay.u.cash.",
     "type": "invoiceninja-paymentdriver",
     "license": "MIT",

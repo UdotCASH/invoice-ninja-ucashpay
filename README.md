@@ -40,7 +40,7 @@ checkout and the invoice is marked **Paid** automatically.
 3. Set the store's **Webhook URL** in U.CASH Pay to:
 
    ```
-   https://YOUR-NINJA/ucashpay/webhook/{company_gateway}
+   https://YOUR-NINJA/ucash/webhook/{company_gateway}
    ```
 
    where `{company_gateway}` is the gateway key shown in the Invoice Ninja gateway config.
